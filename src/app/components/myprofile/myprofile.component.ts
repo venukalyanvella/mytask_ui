@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ToastrManager } from 'ng6-toastr-notifications';
 import { AuthService } from 'src/app/services/auth.service';
 declare var $:any;
 
@@ -13,7 +14,7 @@ export class MyprofileComponent implements OnInit {
   userForm:FormGroup;
   public user_id:any;
  public myprofile:any =[]
-  constructor(private _authservice:AuthService) { }
+  constructor(private _authservice:AuthService, private toaster:ToastrManager) { }
 
   ngOnInit() {
    this.getProfile()
@@ -33,16 +34,18 @@ export class MyprofileComponent implements OnInit {
 
   saveDetails(data:any){
 this._authservice.updateChanges(data,this.user_id).subscribe(
-  (result)=>{
-    console.log('PRofile Updated');
+  (result:any)=>{
+    console.log('Profile Updated');
     this.getProfile()
     this.closeModel()
+    this.toaster.successToastr(result.message,'Success')
 
   },
-(error)=>{
+(error:any)=>{
   console.log('Failed to Update Profile',error)
   this.getProfile();
-  this.closeModel()
+  this.closeModel();
+  this.toaster.errorToastr(error.message,'Error')
 
 
 }

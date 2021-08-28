@@ -1,100 +1,148 @@
-
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h3 class="text-center display-4 py-2">User Details</h3>
-            <button class="btn btn-success mb-2" (click)="openModel($event)">Add New</button>
-            <table class="table table-bodered table-responsive">
-                <tbody>
-                    <tr>
-                        <th>ID</th>
-                        <th>Firstname</th>
-                        <th> Lastname </th>
-                        <th > Username </th>
-                        <th>Email</th>
-                        <th> Phone </th>
-                        <th> Designation </th>
-                        <th> Address </th>
-                        <th>Action </th>
-                    </tr>
-                    <tr *ngFor="let item of UserDetails; let i= index">
-                        <td>{{i}}</td>
-                        <td>{{item.firstname}}</td>
-                        <td>{{item.lastname}}</td>
-                        <td>{{item.username}}</td>
-                        <td>{{item.email}}</td>
-                        <td>{{item.mobile}}</td>
-                        <td>{{item.designation}}</td>
-                        <td>{{item.address}}  </td>
-                        <td colspan="2"> <a (click)="makeChanges(item)" class="btn btn-warning">Edit</a> 
-                            <a (click)="removeUser(item._id)" class="btn btn-danger ml-2"> Delete</a>
-                        </td>
+  <div class="row justify-content-center">
+    <div class="col-md-12">
+      <h3 class="text-center display-4 py-2">User Details</h3>
+      <button class="btn btn-success mb-2" (click)="openModel($event)">Add New</button>
+      <table class="table table-bodered table-responsive">
+        <tbody>
+          <tr>
+            <th>ID</th>
+            <th>Firstname</th>
+            <th> Lastname </th>
+            <th> Username </th>
+            <th>Email</th>
+            <th> Phone </th>
+            <th> Designation </th>
+            <th> Address </th>
+            <th>Action </th>
+          </tr>
+          <tr *ngFor="let item of UserDetails; let i= index">
+            <td>{{i}}</td>
+            <td>{{item.firstname}}</td>
+            <td>{{item.lastname}}</td>
+            <td>{{item.username}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.mobile}}</td>
+            <td>{{item.designation}}</td>
+            <td>{{item.address}} </td>
+            <td colspan="2"> <a (click)="makeChanges(item)" class="btn btn-warning">Edit</a>
+              <a (click)="removeUser(item._id)" class="btn btn-danger ml-2"> Delete</a>
+            </td>
 
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
 </div>
 
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="myModal"  >
-    <div class="modal-dialog modal-dialog-centered" >
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">{{title}} User </h5>
-          <button type="button" class="close" (click)="closeModel()">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="userForm">
-              <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="firstname">FirstName</label>
-                        <input type="text" class="form-control" name="firstname" formControlName="firstname" id="firstname">
-                    </div>
-                    <div class="form-group">
-                      <label for="firstname">Last Name</label>
-                      <input type="text" class="form-control" name="lastname" formControlName="lastname" id="lastname">
-                  </div>
-                  <div class="form-group">
-                      <label for="firstname">username</label>
-                      <input type="text" class="form-control" name="username" formControlName="username" id="username">
-                  </div>
-                  <div class="form-group">
-                      <label for="firstname">Email Address</label>
-                      <input type="email" class="form-control" name="email" formControlName="email" id="email">
-                  </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="firstname">Mobile Number</label>
-                        <input type="tel" class="form-control" name="mobile" formControlName="mobile" id="mobile">
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname">Designation</label>
-                        <input type="text" class="form-control" name="designation" formControlName="designation" id="designation">
-                    </div>
-                    <div class="form-group">
-                        <label for="firstname">Address</label>
-                        <input type="text" class="form-control" name="address" formControlName="address" id="address">
-                    </div>
-                </div>
-              </div>
-              
-            
 
-          </form>
-          <button type="button"  class="btn btn-secondary" data-dismiss="modal">Reset</button>
-          <button type="button" class="btn btn-primary ml-2" (click)="submitDetails(userForm.value,action)">Save </button>
-        </div>
-        
+<!-- Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{title}} User </h5>
+        <button type="button" class="close" (click)="closeModel()">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
+      <div class="modal-body">
+        <form [formGroup]="userForm">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="firstname">FirstName</label>
+                <input type="text" class="form-control" name="firstname" formControlName="firstname"
+                  placeholder=" Enter Firstname" minlength="3" id="firstname" required>
+              </div>
+              <div *ngIf="userForm.controls['firstname'].errors && userForm.controls['firstname'].touched ">
+                <span *ngIf="userForm.controls['firstname'].errors?.required" class="text-danger"> firstname Not be
+                  Empty</span>
+                <span *ngIf="userForm.controls['firstname'].errors?.minlength" class="text-danger"> Atleast 3
+                  Characters</span>
+
+              </div>
+              <div class="form-group">
+                <label for="firstname">Last Name</label>
+                <input type="text" class="form-control" name="lastname" formControlName="lastname" id="lastname"
+                  placeholder="Enter Lastname" minlength="3" required>
+              </div>
+              <div *ngIf="userForm.controls['lastname'].errors && userForm.controls['lastname'].touched ">
+                <span *ngIf="userForm.controls['lastname'].errors?.required" class="text-danger"> Lastname Not be
+                  Empty</span>
+                <span *ngIf="userForm.controls['lastname'].errors?.minlength" class="text-danger"> Atleast 3
+                  Characters</span>
+
+              </div>
+              <div class="form-group">
+                <label for="firstname">username</label>
+                <input type="text" class="form-control" name="username" formControlName="username" id="username"
+                  placeholder="Enter Username" minlength="3" required>
+              </div>
+              <div *ngIf="userForm.controls['username'].errors && userForm.controls['username'].touched ">
+                <span *ngIf="userForm.controls['username'].errors?.required" class="text-danger"> username Not be
+                  Empty</span>
+                <span *ngIf="userForm.controls['username'].errors?.minlength" class="text-danger"> Atleast 3
+                  Characters</span>
+
+              </div>
+              <div class="form-group">
+                <label for="firstname">Email Address</label>
+                <input type="email" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" name="email"
+                  formControlName="email" id="email">
+              </div>
+              <div *ngIf="userForm.controls['email'].errors && userForm.controls['email'].touched ">
+                <span *ngIf="userForm.controls['email'].errors?.required" class="text-danger"> email Not be Empty</span>
+                <span *ngIf="userForm.controls['email'].errors?.pattern" class="text-danger">Invalid Email-id</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="mobile">Mobile Number</label>
+                <input type="tel" class="form-control" placeholder="Enter Mobile Number" required name="mobile"
+                  formControlName="mobile" id="mobile" minlength="10">
+              </div>
+              <div *ngIf="userForm.controls['mobile'].errors && userForm.controls['mobile'].touched ">
+                <span *ngIf="userForm.controls['mobile'].errors?.required" class="text-danger"> Mobile Number Not be
+                  Empty</span>
+                <span *ngIf="userForm.controls['mobile'].errors?.minlength" class="text-danger"> Mobile Number must be
+                  10
+                  digits</span>
+
+
+              </div>
+              <div class="form-group">
+                <label for="firstname">Designation</label>
+                <input type="text" class="form-control" name="designation" formControlName="designation"
+                  placeholder="Enter Designation" required id="designation">
+              </div>
+              <div *ngIf="userForm.controls['designation'].errors && userForm.controls['designation'].touched ">
+                <span *ngIf="userForm.controls['designation'].errors?.required" class="text-danger"> Designation Not be
+                  Empty</span>
+
+              </div>
+              <div class="form-group">
+                <label for="firstname">Address</label>
+                <input type="text" class="form-control" placeholder="Enter Address" required name="address"
+                  formControlName="address" id="address">
+              </div>
+              <div *ngIf="userForm.controls['address'].errors && userForm.controls['address'].touched ">
+                <span *ngIf="userForm.controls['address'].errors?.required" class="text-danger"> Address Not be
+                  Empty</span>
+
+              </div>
+            </div>
+          </div>
+
+
+
+        </form>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Reset</button>
+        <button type="button" class="btn btn-primary ml-2" (click)="submitDetails(userForm.value,action)">Save </button>
+      </div>
+
     </div>
   </div>
-
-
+</div>
